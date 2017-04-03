@@ -1,0 +1,19 @@
+{
+  "name": "chroma.js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/main.d.ts",
+  "dependencies": {
+    "isomorphic-fetch": "~2.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^2.2.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "author": "Adrian Brettschneider",
+  "license": "MIT"
+}

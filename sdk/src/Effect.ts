@@ -1,0 +1,12 @@
+enum Effect {
+    UNDEFINED,
+    EFFECT_ID,
+    CHROMA_NONE = <any>"CHROMA_NONE",
+    CHROMA_CUSTOM = <any>"CHROMA_CUSTOM",
+    CHROMA_CUSTOM2 = <any>"CHROMA_CUSTOM2",
+    CHROMA_CUSTOM_KEY = <any>"CHROMA_CUSTOM_KEY",
+    CHROMA_STATIC = <any>"CHROMA_STATIC"
+}
+
+
+export default Effect;
