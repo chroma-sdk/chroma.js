@@ -10,6 +10,11 @@ This is done either by using your IDE (VS-Code is configured) or by going into t
 npm install
 npm run build
 ```
+or
+```
+yarn install
+yarn run build
+```
 Now the "dist" folder contains all the needed files.
 
 Afterwards you can start the example by executing the following in the example folder:
@@ -17,11 +22,16 @@ Afterwards you can start the example by executing the following in the example f
 npm install
 npm run dev
 ```
+or
+```
+yarn install
+yarn run dev
+```
 This will start a Javascript development Server running on http://localhost:8080
 
-To run the Node.js version just do:
+To run the Node.js version just do in the example directory:
 ```
-npm install
-npm run build
+yarn install
+yarn run build
 node dist/Server.bundle.js
 ```
