@@ -3,4 +3,4 @@ src/
 index.ts
 tsconfig.json
 tslint.json
-sample/
+example/
