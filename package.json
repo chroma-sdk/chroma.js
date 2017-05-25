@@ -1,0 +1,21 @@
+{
+  "name": "@chromasdk/chromajs",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/main.d.ts",
+  "dependencies": {
+    "isomorphic-fetch": "2.2.1"
+  },
+  "devDependencies": {
+    "nyc": "10.3.2",
+    "rimraf": "2.6.1",
+    "tslint": "5.3.2",
+    "typescript": "2.3.3"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "lint": "tslint src/*"
+  }
+}

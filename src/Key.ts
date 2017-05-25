@@ -123,7 +123,7 @@ export enum Key {
     Kor5 = 0x0504,
     Kor6 = 0x0509,
     Kor7 = 0x050A,
-    Invalid = 0xFFFF
+    Invalid = 0xFFFF,
 }
 
 export default Key;

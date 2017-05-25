@@ -1,22 +1,23 @@
-import fetch from '../request';
-import Effect from '../Effect';
-import {ChromaInstance} from "../ChromaInstance";
+import { ChromaInstance } from "../ChromaInstance";
+import Effect from "../Effect";
+import fetch from "../request";
 
-function parseEffectData(effect:any, data:any){
+function parseEffectData(effect: any, data: any) {
     let jsonObj = null;
-    if (effect == Effect.CHROMA_NONE) {
-        jsonObj = { "effect": effect };
-    } else if (effect == Effect.CHROMA_CUSTOM|| effect == Effect.CHROMA_CUSTOM2 || effect == Effect.CHROMA_CUSTOM_KEY) {
-        jsonObj = { "effect": effect, "param": data };
-    } else if (effect == Effect.CHROMA_STATIC) {
-        var color = { "color": data };
-        jsonObj = { "effect": effect, "param": color };
+    if (effect === Effect.CHROMA_NONE) {
+        jsonObj = { effect };
+    } else if (effect === Effect.CHROMA_CUSTOM ||
+    effect === Effect.CHROMA_CUSTOM2 ||
+    effect === Effect.CHROMA_CUSTOM_KEY) {
+        jsonObj = { effect, param: data };
+    } else if (effect === Effect.CHROMA_STATIC) {
+        const color = { color: data };
+        jsonObj = { effect, param: color };
     }
     return jsonObj;
 }
 
-
-export interface IDeviceData{
+export interface IDeviceData {
     activeEffect: Effect;
     effectData: any;
     device: string;
@@ -48,7 +49,7 @@ export default class DeviceBase implements IDevice, IDeviceData{
     }
 
     setStatic(color: any){
-        this.setDeviceEffect(Effect.CHROMA_STATIC,color);
+        this.setDeviceEffect(Effect.CHROMA_STATIC, color);
         return this;
     }
 
@@ -56,11 +57,11 @@ export default class DeviceBase implements IDevice, IDeviceData{
         this.setStatic(color);
         return this;
     }
-    
-    set(){
-        //console.log("Test");
+
+    set() {
+        // console.log("Test");
     }
-    
+
     setNone(){
         this.setDeviceEffect(Effect.CHROMA_NONE);
     }

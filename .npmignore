@@ -1,5 +1,6 @@
-src
+src/
 .vscode/
 index.ts
 tsconfig.json
-examples/
+tslint.json
+sample/
