@@ -27,7 +27,7 @@ export class ChromaApp {
         };
     }
 
-    async Instance(create: boolean=true){
+    async Instance(create: boolean=true): Promise<ChromaInstance>{
         if(this._instance!==null){
             var instance = await this._instance;
             

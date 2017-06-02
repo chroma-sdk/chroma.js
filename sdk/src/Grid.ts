@@ -14,6 +14,19 @@ export default class Grid {
         this.grid = [];
     }
 
+    
+    clone(){
+        var copygrid = new Grid(this.rows,this.cols,this.initialValue);
+        for(let inner of this.grid){
+            let rowarray = new Array<Color>();
+            for(let color of inner){
+                rowarray.push(new Color(color.r,color.g,color.b));
+            }
+            copygrid.grid.push(rowarray);
+        }
+        return copygrid;
+    }
+
     setPosition(r:number,c:number,value:Color){
         if(r === undefined || this.rows<=r || r<0) throw Error("Index out of range [row]");
         if(c === undefined || this.cols<=c || c<0) throw Error("Index out of range [col]");

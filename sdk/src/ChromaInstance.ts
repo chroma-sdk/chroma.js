@@ -13,7 +13,7 @@ import Effect from "./Effect";
 export class ChromaInstance extends DeviceContainer {
     url: string;
     private interval: number;
-    private activeAnimation: Animation = null;
+    activeAnimation: Animation = null;
     destroyed: boolean = false;
 
     constructor(url: string){
