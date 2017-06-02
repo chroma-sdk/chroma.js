@@ -1,31 +1,31 @@
-import DeviceBase from './Base';
-import Effect from '../Effect';
-import Grid from '../Grid';
 import {ChromaInstance} from "../ChromaInstance";
 import Color from "../Color";
+import Effect from "../Effect";
+import Grid from "../Grid";
+import DeviceBase from "./Base";
 
 export default class Mouse extends DeviceBase {
-    grid:Grid;
+    public grid: Grid;
 
-    constructor(){
+    constructor() {
         super();
         this.device = "mouse";
-        this.grid = new Grid(9,7);   
+        this.grid = new Grid(9, 7);
     }
 
-    setAll(color:Color){
+    public setAll(color: Color) {
         this.grid.set(color);
         this.set();
         return this;
     }
 
-    setPosition(r:number,c:number,color:Color){
-        this.grid.setPosition(r,c,color);
+    public setPosition(r: number, c: number, color: Color) {
+        this.grid.setPosition(r, c, color);
         this.set();
         return this;
     }
 
-    set(){
+    public set() {
         this.setDeviceEffect(Effect.CHROMA_CUSTOM2, this.grid.grid);
         return this;
     }

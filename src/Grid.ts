@@ -1,80 +1,99 @@
 import { Color } from "./Color";
 
 export default class Grid {
-    grid: Array<Array<Color>>;
-    rows: number;
-    cols: number;
-    initialValue: Color;
-    isExtended: boolean = false;
+    public grid: Color[][];
+    public rows: number;
+    public cols: number;
+    public initialValue: Color;
+    public isExtended: boolean = false;
 
-    constructor(rows:number,cols:number,initialValue:Color=Color.Black){
+    constructor(rows: number, cols: number, initialValue: Color= Color.Black) {
         this.rows = rows;
         this.cols = cols;
         this.initialValue = initialValue;
         this.grid = [];
     }
 
-    
-    clone(){
-        var copygrid = new Grid(this.rows,this.cols,this.initialValue);
-        for(let inner of this.grid){
-            let rowarray = new Array<Color>();
-            for(let color of inner){
-                rowarray.push(new Color(color.r,color.g,color.b));
+    public clone() {
+        const copygrid = new Grid(this.rows, this.cols, this.initialValue);
+        for (const inner of this.grid){
+            const rowarray = new Array<Color>();
+            for (const color of inner){
+                rowarray.push(new Color(color.r, color.g, color.b));
             }
             copygrid.grid.push(rowarray);
         }
         return copygrid;
     }
 
-    setPosition(r:number,c:number,value:Color){
-        if(r === undefined || this.rows<=r || r<0) throw Error("Index out of range [row]");
-        if(c === undefined || this.cols<=c || c<0) throw Error("Index out of range [col]");
-        if(this.grid[r] === undefined) this.grid[r] = [];
+    public setPosition(r: number, c: number, value: Color) {
+        if (r === undefined || this.rows <= r || r < 0) {
+            throw Error("Index out of range [row]");
+        }
+        if (c === undefined || this.cols <= c || c < 0) {
+            throw Error("Index out of range [col]");
+        }
+        if (this.grid[r] === undefined) {
+            this.grid[r] = [];
+        }
         this.grid[r][c] = value;
     }
 
-    setRow(r:number,value:Color){
-        if(r === undefined || this.rows<=r || r<0) throw Error("Index out of range [row] "+this.rows+" - "+r);
-        if(this.grid[r] === undefined) this.grid[r] = [];
+    public setRow(r: number, value: Color) {
+        if (r === undefined || this.rows <= r || r < 0) {
+            throw Error("Index out of range [row] " + this.rows + " - " + r);
+        }
+        if (this.grid[r] === undefined) {
+            this.grid[r] = [];
+        }
 
         for (let c = 0; c < this.cols; c++) {
             this.grid[r][c] = value;
         }
     }
 
-    setCol(c:number,value:Color){
-        if(c === undefined || this.cols<=c || c<0) throw Error("Index out of range [col]");
+    public setCol(c: number, value: Color) {
+        if (c === undefined || this.cols <= c || c < 0) {
+            throw Error("Index out of range [col]");
+        }
         for (let r = 0; r < this.rows; r++) {
-            if(this.grid[r] === undefined) this.grid[r] = [];
+            if (this.grid[r] === undefined) {
+                this.grid[r] = [];
+            }
             this.grid[r][c] = value;
         }
     }
 
-    set(value:Color){
+    public set(value: Color) {
         for (let r = 0; r < this.rows; r++) {
-            if(this.grid[r] === undefined) this.grid[r] = [];
+            if (this.grid[r] === undefined) {
+                this.grid[r] = [];
+            }
             for (let c = 0; c < this.cols; c++) {
                 this.grid[r][c] = value;
             }
         }
     }
 
-    getPosition(r:number,c:number){
-        if(this.grid[r]!==undefined && this.grid[r][c]!==undefined){
+    public getPosition(r: number, c: number) {
+        if (this.grid[r] !== undefined && this.grid[r][c] !== undefined) {
             return this.grid[r][c];
         }
         return null;
     }
 
-    toJSON(){
-        if(!this.isExtended){
-            this.isExtended=true;
+    public toJSON() {
+        if (!this.isExtended) {
+            this.isExtended = true;
             for (let r = 0; r < this.rows; r++) {
-                if(this.grid[r] === undefined) this.grid[r] = [];
+                if (this.grid[r] === undefined) {
+                    this.grid[r] = [];
+                }
+
                 for (let c = 0; c < this.cols; c++) {
-                    if(this.grid[r][c] === undefined)
+                    if (this.grid[r][c] === undefined) {
                         this.grid[r][c] = this.initialValue;
+                    }
                 }
             }
         }

@@ -16,6 +16,6 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "lint": "tslint src/*"
+    "lint": "tslint src/**/*.ts{,x}"
   }
 }

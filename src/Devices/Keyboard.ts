@@ -1,80 +1,75 @@
-import DeviceBase from './Base';
-import Effect from '../Effect';
-import Grid from '../Grid';
 import {ChromaInstance} from "../ChromaInstance";
 import Color from "../Color";
+import Effect from "../Effect";
+import Grid from "../Grid";
 import Key from "../Key";
+import DeviceBase from "./Base";
 
 export class Keyboard extends DeviceBase {
-    grid: Grid;
-    keys: Grid;
-    static Columns: number = 22;
-    static Rows: number = 6;
+    public static Columns: number = 22;
+    public static Rows: number = 6;
 
-    constructor(){
+    public grid: Grid;
+    public keys: Grid;
+
+    constructor() {
         super();
         this.device = "keyboard";
-        this.grid = new Grid(Keyboard.Rows,Keyboard.Columns,Color.Black);      
-        this.keys = new Grid(Keyboard.Rows,Keyboard.Columns,Color.Black);  
+        this.grid = new Grid(Keyboard.Rows, Keyboard.Columns, Color.Black);
+        this.keys = new Grid(Keyboard.Rows, Keyboard.Columns, Color.Black);
         this.setKey = this.setKey.bind(this);
     }
 
-    setAll(color: Color){
+    public setAll(color: Color) {
         this.grid.set(color);
         this.keys.set(Color.Black);
         this.set();
         return this;
     }
-    
-    setRow(r:number,color:Color){
-        this.grid.setRow(r,color);
+
+    public setRow(r: number, color: Color) {
+        this.grid.setRow(r, color);
         this.set();
         return this;
     }
 
-    setCol(c:number,color:Color){
-        this.grid.setCol(c,color);
+    public setCol(c: number, color: Color) {
+        this.grid.setCol(c, color);
         this.set();
         return this;
     }
 
-    setPosition(r:number,c:number,color:Color){
+    public setPosition(r: number, c: number, color: Color) {
         color.isKey = false;
         this.grid.setPosition(r, c, color);
         this.set();
         return this;
     }
 
-
-    setKey(keyOrArrayOfKeys : Key | Array<Key>, color : Color){
+    public setKey(keyOrArrayOfKeys: Key | Key[], color: Color) {
         if (keyOrArrayOfKeys instanceof Array) {
-            var keyarray = keyOrArrayOfKeys as Array<Key>;
-            keyOrArrayOfKeys.forEach(element => {
+            const keyarray = keyOrArrayOfKeys as Key[];
+            keyOrArrayOfKeys.forEach((element) => {
                 this.setKey(element, color);
             });
             return this;
         } else {
-            let row = keyOrArrayOfKeys >> 8;
-            let col = keyOrArrayOfKeys & 0xFF;
+            const row = keyOrArrayOfKeys >> 8; // tslint:disable-line:no-bitwise
+            const col = keyOrArrayOfKeys & 0xFF; // tslint:disable-line:no-bitwise
             color.isKey = true;
 
-            this.keys.setPosition(row,col,color);
+            this.keys.setPosition(row, col, color);
             return this;
         }
     }
 
-    set(){
+    public set() {
         this.setDeviceEffect(Effect.CHROMA_CUSTOM_KEY, {
             color: this.grid,
-            key: this.keys
+            key: this.keys,
         });
         return this;
     }
-
-    import(data:any){
-
-    }
 }
-
 
 export default Keyboard;

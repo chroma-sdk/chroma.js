@@ -1,60 +1,69 @@
-import fetch from './request';
-import {ChromaInstance} from './ChromaInstance';
+import {AppCategory, AppInfo} from "./AppInfo";
+import {AvailableDevices} from "./Devices";
 
+import {ChromaInstance} from "./ChromaInstance";
+import fetch from "./request";
 
 export class ChromaApp {
-    uninitpromise: any = null;
-    _instance: Promise<ChromaInstance> = null;
-    data: any;
+    private uninitpromise: any = null;
+    private activeInstance: Promise<ChromaInstance> = null;
+    private data: AppInfo;
 
-    constructor(title: string, description: string="", author: string="", contact: string="", devices: Array<string> =[
-                "keyboard",
-                "mouse",
-                "headset",
-                "mousepad",
-                "keypad",
-                "chromalink"], category:string="application"){
-        this._instance = null;        
-        this.data = {
-            "title": title,
-            "description": description,
-            "author": {
-                "name": author,
-                "contact": contact
-            },
-            "device_supported": devices,
-            "category": category
-        };
+    constructor(title: string,
+                description: string= "",
+                author: string= "TempRazerDev",
+                contact: string= "razer@test.de",
+                devices: AvailableDevices[]= [
+                    AvailableDevices.Keyboard,
+                    AvailableDevices.Mouse,
+                    AvailableDevices.Headset,
+                    AvailableDevices.Mousepad,
+                    AvailableDevices.Keypad,
+                    AvailableDevices.ChromaLink,
+                ],
+                category: AppCategory= AppCategory.Application) {
+        this.activeInstance = null;
+        this.data = new AppInfo();
+        this.data.Title = title;
+        this.data.Description = description;
+        this.data.Author.Name = author;
+        this.data.Author.Contact = contact;
+        this.data.DeviceSupported = devices;
+        this.data.Category = category;
     }
 
-    async Instance(create: boolean=true): Promise<ChromaInstance>{
-        if(this._instance!==null){
-            var instance = await this._instance;
-            
-            if(!instance.destroyed)
-                return instance;
-            else
-                this._instance=null;
-        }
-        
-        if(create) {
-            let options = {
-                method: 'post',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(this.data)
-            }
+    public async Instance(create: boolean= true): Promise<ChromaInstance> {
+        if (this.activeInstance !== null) {
+            const instance = await this.activeInstance;
 
-            this._instance = new Promise<ChromaInstance>(async (resolve, reject) => {
-                try{
-                  let response = await fetch("http://localhost/razer/chromasdk", options);
-                  let json = await response.json();
-                  resolve(new ChromaInstance(json.uri));
-                } catch(error){
+            if (!instance.destroyed) {
+                return instance;
+            } else {
+                this.activeInstance = null;
+            }
+        }
+
+        if (create) {
+            const options = {
+                body: JSON.stringify(this.data),
+                headers: {"Content-Type": "application/json"},
+                method: "post",
+            };
+
+            this.activeInstance = new Promise<ChromaInstance>(async (resolve, reject) => {
+                try {
+                  const response = await fetch("http://localhost:54235/razer/chromasdk", options);
+                  const json = await response.json();
+                  if (json.uri !== undefined) {
+                    resolve(new ChromaInstance(json.uri));
+                  }
+                  reject("Unable to retrieve URI " + JSON.stringify(json));
+                } catch (error) {
                   reject(error);
                 }
             });
 
-            return await this._instance;
+            return await this.activeInstance;
         } else {
             return null;
         }

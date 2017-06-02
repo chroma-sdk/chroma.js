@@ -1,147 +1,152 @@
-import fetch from './request';
-import Color from './Color';
+import Color from "./Color";
+import fetch from "./request";
 
+import {Animation} from "./Animation";
+import {IDevice, IDeviceData} from "./Devices/Base";
 
-import {IDevice, IDeviceData} from './Devices/Base';
-import {Animation} from './Animation';
-
-import DeviceContainer from './Devices';
-
+import DeviceContainer from "./Devices";
 
 import Effect from "./Effect";
 
 export class ChromaInstance extends DeviceContainer {
-    url: string;
-    private interval: number;
-    activeAnimation: Animation = null;
-    destroyed: boolean = false;
+    public destroyed: boolean = false;
 
-    constructor(url: string){
+    private url: string;
+    private interval: number;
+    private activeAnimation: Animation = null;
+
+    constructor(url: string) {
         super();
         this.url = url;
         this.heartbeat = this.heartbeat.bind(this);
         this.setAll = this.setAll.bind(this);
         this.destroy = this.destroy.bind(this);
-        
         this.interval = setInterval(this.heartbeat, 10000);
     }
 
-    async playAnimation(animation: Animation){
+    public async playAnimation(animation: Animation) {
         await this.stopAnimation();
         this.activeAnimation = animation;
         await animation.play(this);
         return animation;
     }
 
-    async stopAnimation(){
-        if(this.activeAnimation!==null){
+    public async stopAnimation() {
+        if (this.activeAnimation !== null) {
             await this.activeAnimation.stop();
-            this.activeAnimation=null;
+            this.activeAnimation = null;
         }
         return;
     }
 
-
-    async destroy(){
-        this.destroyed=true;
+    public async destroy() {
+        this.destroyed = true;
         clearInterval(this.interval);
-        this.interval=null;
-        var url = this.url;
-        this.url="";
-        var response = await fetch(url,{
-            method: 'delete',
+        this.interval = null;
+        const url = this.url;
+        this.url = "";
+        const response = await fetch(url, {
+            method: "delete",
         });
 
-        if(!response.ok)
-            throw Error(response.statusText); 
-        
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+
         return true;
     }
 
-    async heartbeat(){
-        if(this.url==="") return;
-        var response = await fetch(this.url+"/heartbeat",{
-            method: 'put',
+    public async heartbeat() {
+        if (this.url === "") {
+            return;
+        }
+        const response = await fetch(this.url + "/heartbeat", {
+            method: "put",
         });
 
-        if(!response.ok)
-            throw Error(response.statusText); 
-        
-        return response; 
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+
+        return response;
     }
 
+    public async send(container: DeviceContainer = this) {
+        if (this.url === "") {
+            return;
+        }
 
-    async send(container: DeviceContainer = this){
-        if(this.url==="") return;
-
-        let devices : Array<IDevice> = [];
-        let effectids = [];
-        for(let device of container.Devices){
-            if(device.activeEffect === Effect.UNDEFINED)
+        const devices: IDevice[] = [];
+        const effectids = [];
+        for (const device of container.Devices){
+            if (device.activeEffect === Effect.UNDEFINED) {
                 continue;
+            }
 
-            if(device.effectId !== ""){
+            if (device.effectId !== "") {
                 effectids.push(device.effectId);
             } else {
                 devices.push(device);
             }
         }
         this.setEffect(effectids);
-        return await this.sendDeviceUpdate(devices, false)
+        return await this.sendDeviceUpdate(devices, false);
 
     }
 
-
-    async sendDeviceUpdate(devices: Array<IDeviceData>, store: boolean=false){
-        let response = [];
-        for(let device of devices){
-            let name = device.device;
-            let parsedData = device.effectData;
-            var deviceresponse = await fetch(this.url+"/"+name, {
-                method: (store)?'post':'put',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(parsedData)
+    public async sendDeviceUpdate(devices: IDeviceData[], store: boolean= false) {
+        const response = [];
+        for (const device of devices){
+            const name = device.device;
+            const parsedData = device.effectData;
+            const deviceresponse = await fetch(this.url + "/" + name, {
+                body: JSON.stringify(parsedData),
+                headers: { "Content-Type": "application/json" },
+                method: (store) ? "post" : "put",
             });
 
-            if(!deviceresponse.ok)
-                throw Error(deviceresponse.statusText); 
-            var data = await deviceresponse.json();
-            
-            response.push(data.results);      
+            if (!deviceresponse.ok) {
+                throw Error(deviceresponse.statusText);
+            }
+            const data = await deviceresponse.json();
+
+            response.push(data.results);
         }
         return response;
     }
 
-    async setEffect(effectids: Array<string>){
-        if(effectids.length===0) return;
-        for(let effectid of effectids){
+    public async setEffect(effectids: string[]) {
+        if (effectids.length === 0) {
+            return;
+        }
+        for (const effectid of effectids){
 
-            var payload = JSON.stringify({
-                    "id": effectid
+            const payload = JSON.stringify({
+                    id: effectid,
                 });
-            var deviceresponse = await fetch(this.url+"/effect", {
-                method: 'put',
-                headers: { 'Content-Type': 'application/json', 'Content-Length': payload.length },
-                body: payload
+            const deviceresponse = await fetch(this.url + "/effect", {
+                body: payload,
+                headers: { "Content-Type": "application/json", "Content-Length": payload.length },
+                method: "put",
             });
 
-            let jsonresp = await deviceresponse.json();
+            const jsonresp = await deviceresponse.json();
         }
     }
 
-    async deleteEffect(effectids: Array<string>){
-        if(effectids.length===0) return;
+    public async deleteEffect(effectids: string[]) {
+        if (effectids.length === 0) {
+            return;
+        }
 
-        
-        var payload = JSON.stringify({
-                "ids": effectids
+        const payload = JSON.stringify({
+                ids: effectids,
             });
-        var deviceresponse = await fetch(this.url+"/effect", {
-            method: 'delete',
-            headers: { 'Content-Type': 'application/json', 'Content-Length': payload.length },
-            body: payload
+        const deviceresponse = await fetch(this.url + "/effect", {
+            body: payload,
+            headers: { "Content-Type": "application/json", "Content-Length": payload.length },
+            method: "delete",
         });
     }
-
 
 }
