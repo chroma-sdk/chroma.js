@@ -1,19 +1,21 @@
 {
-  "name": "chroma.js",
-  "version": "1.0.0",
+  "name": "@chromasdk/chromajs",
+  "version": "0.1.0",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/main.d.ts",
   "dependencies": {
-    "isomorphic-fetch": "~2.2.1"
+    "isomorphic-fetch": "2.2.1"
   },
   "devDependencies": {
-    "typescript": "^2.2.2"
+    "nyc": "10.3.2",
+    "rimraf": "2.6.1",
+    "tslint": "5.3.2",
+    "typescript": "2.3.3"
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc -w"
-  },
-  "author": "Adrian Brettschneider",
-  "license": "MIT"
+    "dev": "tsc -w",
+    "lint": "tslint src/*"
+  }
 }
