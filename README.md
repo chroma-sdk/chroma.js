@@ -4,7 +4,7 @@
 
 Chroma.js is a library that provides a simple interface to interact with Razer's REST api.
 
-## Getting started
+## Building from source
 
 After cloning this repository the Typescript Code needs to be transpiled.
 
