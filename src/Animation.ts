@@ -3,7 +3,7 @@ import {ChromaInstance} from "./ChromaInstance";
 import Color from "./Color";
 import {DeviceRequestData} from "./DeviceRequestData";
 import DeviceContainer from "./Devices";
-import { IDevice, IDeviceData } from "./Devices/Base";
+import {IDevice, IDeviceData} from "./Devices/Base";
 import ChromaLink from "./Devices/ChromaLink";
 import Headset from "./Devices/Headset";
 import Keyboard from "./Devices/Keyboard";
@@ -86,11 +86,7 @@ export class Animation {
         const keyboardids = response[0];
 
         for (let i = 0; i < keyboardids.length; i++) {
-            if (keyboardids[i] !== null) {
-                this.Frames[i].Keyboard.effectId = keyboardids[i].id;
-            } else {
-                this.Frames[i].Keyboard.effectId = "";
-            }
+            this.Frames[i].Keyboard.effectId = keyboardids[i] !== null ? keyboardids[i].id : "";
         }
         return;
     }

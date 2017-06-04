@@ -2,6 +2,13 @@
   "name": "@chromasdk/chromajs",
   "version": "0.1.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chroma-sdk/chroma-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chroma-sdk/chroma-js/issues"
+  },
   "main": "./dist/index.js",
   "types": "./dist/main.d.ts",
   "dependencies": {

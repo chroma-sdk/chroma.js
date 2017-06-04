@@ -28,7 +28,6 @@ export interface IDevice {
     effectData: any;
     device: string;
     effectId: string;
-
     setStatic(color: any): void;
     setAll(color: any): void;
     setNone(): void;
