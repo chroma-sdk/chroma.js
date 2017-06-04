@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/chroma-sdk/chroma-js.svg?style=svg&circle-token=d066d70fae54ca26b07aad36250e78d478c62790)](https://circleci.com/gh/chroma-sdk/chroma-js)
 
-Chroma.js is a library that provides a simple interface to interact with Razer's REST api.
+Chroma.js is a library that provides a simple interface to interact with Razer's Chroma REST API.
 
 ## Building from source
 
