@@ -1,14 +1,15 @@
 {
   "name": "@chromasdk/chromajs",
   "version": "0.1.0",
-  "description": "",
+  "description": "JavaScript client for the Razer Chroma REST API",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chroma-sdk/chroma-js.git"
+    "url": "git+https://github.com/chroma-sdk/chroma-js.git"
   },
   "bugs": {
     "url": "https://github.com/chroma-sdk/chroma-js/issues"
   },
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/main.d.ts",
   "dependencies": {
@@ -24,5 +25,17 @@
     "build": "tsc",
     "dev": "tsc -w",
     "lint": "tslint src/**/*.ts{,x}"
-  }
+  },
+  "homepage": "https://github.com/chroma-sdk/chroma-js#readme",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "Razer",
+    "Chroma",
+    "SDK",
+    "Rest",
+    "API",
+    "API"
+  ]
 }
